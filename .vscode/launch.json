@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-TechnicalApplication<technical>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.gd4.technical.TechnicalApplication",
+      "projectName": "technical",
+      "args": "--spring.profiles.active=local",
+      "vmArgs": "-Dspring.profiles.active=local -Ddb.user=shagui -Ddb.password=",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

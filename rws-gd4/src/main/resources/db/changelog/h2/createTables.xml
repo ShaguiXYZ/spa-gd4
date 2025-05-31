@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+						http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet author="initial" id="020220231011">
+		<sql dbms="h2">
+			CREATE TABLE warehouses (
+				id int8 auto_increment NOT NULL,
+				uuid varchar NOT NULL,
+				client varchar NOT NULL,
+				family varchar NOT NULL,
+				size int4 NOT NULL,
+				CONSTRAINT warehouses_pk PRIMARY KEY (id)
+			);
+			
+			CREATE TABLE racks (
+				id int8 auto_increment NOT NULL,
+				warehouse_id int8 NOT NULL,
+				uuid varchar NOT NULL,
+				type varchar NOT NULL,
+				CONSTRAINT racks_pk PRIMARY KEY (id),
+				CONSTRAINT racks_warehouses_fk FOREIGN KEY (warehouse_id) REFERENCES warehouses(id) ON DELETE CASCADE ON UPDATE CASCADE
+			);
+		</sql>	
+	</changeSet>
+
+</databaseChangeLog>

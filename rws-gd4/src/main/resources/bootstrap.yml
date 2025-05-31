@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: gd4-technical
+  cloud:
+    config:
+      uri:
+
+server:
+  servlet:
+    context-path: /gd4
