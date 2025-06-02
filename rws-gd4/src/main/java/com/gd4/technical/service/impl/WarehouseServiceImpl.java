@@ -87,8 +87,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public Set<String> allRackPermutationBy(WarehouseFamilyEnum wareHouseId, int length) {
-        return getPermutations(wareHouseId.rackTypes(), length);
+    public Set<String> allRackPermutationBy(WarehouseFamilyEnum family, int length) {
+        return getPermutations(family.rackTypes(), length);
     }
 
     private Set<String> getPermutations(Set<RackTypeEnum> permutationElements, int length) {

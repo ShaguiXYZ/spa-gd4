@@ -4,9 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.gd4.technical.api.dto.RackDTO;
 import com.gd4.technical.model.RackModel;
 import com.gd4.technical.repository.RackRepository;
+import com.gd4.technical.repository.WarehouseRepository;
 import com.gd4.technical.service.RackService;
+import com.gd4.technical.utils.Mapper;
 
 import lombok.AllArgsConstructor;
 
@@ -15,40 +18,42 @@ import lombok.AllArgsConstructor;
 public class RackServiceImpl implements RackService {
     private final RackRepository rackRepository;
 
+    private final WarehouseRepository warehouseRepository;
+
     @Override
-    public RackModel create(RackModel rack) {
+    public RackDTO create(RackDTO rack) {
         rackRepository.findByUuid(rack.getUuid())
                 .ifPresent(existingRack -> {
                     throw new IllegalArgumentException("Rack with UUID " + rack.getUuid() + " already exists.");
                 });
 
-        return rackRepository.save(rack);
+        return Mapper.parse(rackRepository.save(Mapper.parse(rack)));
     }
 
     @Override
-    public RackModel read(String uuId) {
-        return rackRepository.findByUuid(uuId)
-                .orElseThrow(() -> new IllegalArgumentException("Rack not found with UUID: " + uuId));
+    public RackDTO read(String uuId) {
+        return Mapper.parse(rackRepository.findByUuid(uuId)
+                .orElseThrow(() -> new IllegalArgumentException("Rack not found with UUID: " + uuId)));
     }
 
     @Override
-    public RackModel update(RackModel rack) {
+    public RackDTO update(RackDTO rack) {
         RackModel existingRack = rackRepository.findByUuid(rack.getUuid())
                 .orElseThrow(() -> new IllegalArgumentException("Rack not found with UUID: " + rack.getUuid()));
 
         existingRack.setType(rack.getType());
 
-        return rackRepository.save(existingRack);
+        return Mapper.parse(rackRepository.save(existingRack));
     }
 
     @Override
-    public Page<RackModel> byWarehouse(String warehouseUuid) {
-        return rackRepository.findByWarehouseUuid(warehouseUuid, PageRequest.of(0, 10));
+    public Page<RackDTO> byWarehouse(String warehouseUuid, int page, int size) {
+        return rackRepository.findByWarehouseUuid(warehouseUuid, PageRequest.of(page, size)).map(Mapper::parse);
     }
 
     @Override
-    public Page<RackModel> allRacks(int page, int size, String warehouseUuid) {
-        return rackRepository.findAll(PageRequest.of(page, size));
+    public Page<RackDTO> allRacks(int page, int size, String warehouseUuid) {
+        return rackRepository.findAll(PageRequest.of(page, size)).map(Mapper::parse);
     }
 
     @Override

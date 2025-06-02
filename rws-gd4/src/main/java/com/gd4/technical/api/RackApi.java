@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.gd4.technical.model.RackModel;
+import com.gd4.technical.api.dto.RackDTO;
 
 import feign.Headers;
 
@@ -22,22 +22,22 @@ import feign.Headers;
 @RequestMapping(path = { "/api/rack" }, produces = { MediaType.APPLICATION_JSON_VALUE })
 @ResponseBody
 public interface RackApi {
-    @PostMapping("create")
+    @PostMapping("create/{warehouseUuId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public RackModel create(@RequestBody RackModel rack);
+    public RackDTO create(@PathVariable String warehouseUuId, @RequestBody RackDTO rack);
 
     @GetMapping("read/{uuId}")
-    public RackModel read(@PathVariable String uuId);
+    public RackDTO read(@PathVariable String uuId);
 
-    @PutMapping("update")
+    @PutMapping("update/{warehouseUuId}")
     @ResponseStatus(HttpStatus.OK)
-    public RackModel update(@RequestBody RackModel rack);
+    public RackDTO update(@PathVariable String warehouseUuId, @RequestBody RackDTO rack);
 
     @DeleteMapping("delete/{uuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String uuId);
 
-    @GetMapping("getAll")
-    public Page<RackModel> getAllracks(@RequestParam(required = true) int page,
+    @GetMapping("getAll/{warehouseUuId}")
+    public Page<RackDTO> getAllRacks(@PathVariable String warehouseUuId, @RequestParam(required = true) int page,
             @RequestParam(required = true) int size);
 }

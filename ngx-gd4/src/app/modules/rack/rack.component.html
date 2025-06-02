@@ -1,1 +1,50 @@
-<p>rack works!</p>
+<article class="main__container">
+  <header class="form__header">
+    <button type="button" class="go__back" (click)="back()">Back</button>
+  </header>
+  <article class="form__wrapper">
+    <section class="form__container">
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <div class="form__group">
+          <label for="type">Type:</label>
+          <div class="form__group--input">
+            <input type="radio" id="type_A" name="type" value="A" formControlName="type" />
+            <label for="type_A">A</label>
+          </div>
+          <div class="form__group--input">
+            <input type="radio" id="type_b" name="type" value="B" formControlName="type" />
+            <label for="type_B">B</label>
+          </div>
+          <div class="form__group--input">
+            <input type="radio" id="type_C" name="type" value="C" formControlName="type" />
+            <label for="type_C">C</label>
+          </div>
+          <div class="form__group--input">
+            <input type="radio" id="type_D" name="type" value="D" formControlName="type" />
+            <label for="type_D">D</label>
+          </div>
+        </div>
+        <div class="form__actions">
+          <button type="button" (click)="resetForm()">Reset</button>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </section>
+    <section class="data__container">
+      @for (rack of $racks(); track rack.uuid) {
+      <article class="card">
+        <header class="card__header">
+          <h2>UUID: {{ rack.uuid }}</h2>
+        </header>
+        <section class="card__body">
+          <p>Type: {{ rack.type }}</p>
+        </section>
+        <footer class="card__footer">
+          <button type="button" (click)="editData(rack)">Edit</button>
+          <button type="button" (click)="deleteData(rack.uuid)">Delete</button>
+        </footer>
+      </article>
+      }
+    </section>
+  </article>
+</article>
