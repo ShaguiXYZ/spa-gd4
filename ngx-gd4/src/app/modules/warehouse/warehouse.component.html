@@ -1,0 +1,43 @@
+<article class="main__container">
+  <section class="form__container">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div class="form__group">
+        <label for="client">Client:</label>
+        <input id="client" formControlName="client" type="text" placeholder="Enter Location" required />
+      </div>
+      <div class="form__group">
+        <label for="size">Size:</label>
+        <input id="size" formControlName="size" type="number" placeholder="Enter Capacity" required />
+      </div>
+      <div class="form__group">
+        <label for="family">Family:</label>
+        <select id="family" formControlName="family">
+          <option value="EST">EST</option>
+          <option value="ROB">ROB</option>
+        </select>
+      </div>
+      <div class="form__actions">
+        <button type="button" (click)="resetForm()">Reset</button>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </section>
+  <section class="data__container">
+    @for (warehouse of $warehouses(); track warehouse.uuid) {
+    <article class="card">
+      <header class="card__header" (click)="racks(warehouse.uuid)">
+        <h2>UUID: {{ warehouse.uuid }}</h2>
+      </header>
+      <section class="card__body">
+        <p>Client: {{ warehouse.client }}</p>
+        <p>Family: {{ warehouse.family }}</p>
+        <p>Size: {{ warehouse.size }} units</p>
+      </section>
+      <footer class="card__footer">
+        <button type="button" (click)="editData(warehouse)">Edit</button>
+        <button type="button" (click)="deleteData(warehouse.uuid)">Delete</button>
+      </footer>
+    </article>
+    }
+  </section>
+</article>

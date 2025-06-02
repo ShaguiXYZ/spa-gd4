@@ -32,9 +32,9 @@ public interface WarehouseApi {
     @GetMapping("read/{uuId}")
     public WarehouseModel read(@PathVariable String uuId);
 
-    @PutMapping("update")
+    @PutMapping("update/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public WarehouseModel update(@RequestBody WarehouseModel warehouse);
+    public WarehouseModel update(@PathVariable String uuid, @RequestBody WarehouseModel warehouse);
 
     @DeleteMapping("delete/{uuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

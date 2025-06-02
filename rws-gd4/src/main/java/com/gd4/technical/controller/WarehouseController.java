@@ -1,7 +1,5 @@
 package com.gd4.technical.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,8 +33,8 @@ public class WarehouseController implements WarehouseApi {
     }
 
     @Override
-    public WarehouseModel update(WarehouseModel warehouse) {
-        return warehouseService.update(warehouse);
+    public WarehouseModel update(String uuid, WarehouseModel warehouse) {
+        return warehouseService.update(uuid, warehouse);
     }
 
     @Override

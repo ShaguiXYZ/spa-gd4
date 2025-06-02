@@ -39,11 +39,24 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseModel update(WarehouseModel warehouse) {
-        WarehouseModel existingWarehouse = warehouseRepository.findByUuid(warehouse.getUuid())
+    public WarehouseModel update(String uuid, WarehouseModel warehouse) {
+        if (uuid == null || uuid.isEmpty()) {
+            throw new IllegalArgumentException("UUID must not be null or empty");
+        }
+
+        if (warehouse == null) {
+            throw new IllegalArgumentException("Warehouse must not be null");
+        }
+
+        if (!uuid.equals(warehouse.getUuid())) {
+            throw new IllegalArgumentException("UUID in path does not match UUID in warehouse object");
+        }
+
+        WarehouseModel existingWarehouse = warehouseRepository.findByUuid(uuid)
                 .orElseThrow(
                         () -> new IllegalArgumentException("Warehouse not found with UUID: " + warehouse.getUuid()));
 
+        existingWarehouse.setClient(warehouse.getClient());
         existingWarehouse.setFamily(warehouse.getFamily());
         existingWarehouse.setSize(warehouse.getSize());
 

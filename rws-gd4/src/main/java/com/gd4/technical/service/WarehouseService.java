@@ -12,7 +12,7 @@ public interface WarehouseService {
 
     public WarehouseModel read(String uuId);
 
-    public WarehouseModel update(WarehouseModel warehouse);
+    public WarehouseModel update(String uuid, WarehouseModel warehouse);
 
     public void delete(String uuId);
 
