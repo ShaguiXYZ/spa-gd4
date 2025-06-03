@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.gd4.technical.api.dto.WarehouseDTO;
 import com.gd4.technical.api.model.WarehouseFamilyEnum;
-import com.gd4.technical.model.WarehouseModel;
 
 import feign.Headers;
 
@@ -27,21 +27,21 @@ import feign.Headers;
 public interface WarehouseApi {
     @PostMapping("create")
     @ResponseStatus(HttpStatus.CREATED)
-    public WarehouseModel create(@RequestBody WarehouseModel warehouse);
+    public WarehouseDTO create(@RequestBody WarehouseDTO warehouse);
 
     @GetMapping("read/{uuId}")
-    public WarehouseModel read(@PathVariable String uuId);
+    public WarehouseDTO read(@PathVariable String uuId);
 
     @PutMapping("update/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public WarehouseModel update(@PathVariable String uuid, @RequestBody WarehouseModel warehouse);
+    public WarehouseDTO update(@PathVariable String uuid, @RequestBody WarehouseDTO warehouse);
 
     @DeleteMapping("delete/{uuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String uuId);
 
     @GetMapping("getAll")
-    public Page<WarehouseModel> getAllWarehouses(@RequestParam(required = true) int page,
+    public Page<WarehouseDTO> getAllWarehouses(@RequestParam(required = true) int page,
             @RequestParam(required = true) int size);
 
     @GetMapping("rackList/{family}/{size}")

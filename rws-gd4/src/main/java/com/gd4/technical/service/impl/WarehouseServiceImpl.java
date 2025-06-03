@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.gd4.technical.api.dto.WarehouseDTO;
 import com.gd4.technical.api.model.RackTypeEnum;
 import com.gd4.technical.api.model.WarehouseFamilyEnum;
 import com.gd4.technical.model.WarehouseModel;
 import com.gd4.technical.repository.WarehouseRepository;
 import com.gd4.technical.service.WarehouseService;
+import com.gd4.technical.utils.Mapper;
 
 import lombok.AllArgsConstructor;
 
@@ -22,24 +24,24 @@ public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
 
     @Override
-    public WarehouseModel create(WarehouseModel warehouse) {
+    public WarehouseDTO create(WarehouseDTO warehouse) {
         warehouseRepository.findByUuid(warehouse.getUuid())
                 .ifPresent(existingWarehouse -> {
                     throw new IllegalArgumentException(
                             "Warehouse with UUID " + warehouse.getUuid() + " already exists.");
                 });
 
-        return warehouseRepository.save(warehouse);
+        return Mapper.parse(warehouseRepository.save(Mapper.parse(warehouse)));
     }
 
     @Override
-    public WarehouseModel read(String uuId) {
-        return warehouseRepository.findByUuid(uuId)
-                .orElseThrow(() -> new IllegalArgumentException("Warehouse not found with UUID: " + uuId));
+    public WarehouseDTO read(String uuId) {
+        return Mapper.parse(warehouseRepository.findByUuid(uuId)
+                .orElseThrow(() -> new IllegalArgumentException("Warehouse not found with UUID: " + uuId)));
     }
 
     @Override
-    public WarehouseModel update(String uuid, WarehouseModel warehouse) {
+    public WarehouseDTO update(String uuid, WarehouseDTO warehouse) {
         if (uuid == null || uuid.isEmpty()) {
             throw new IllegalArgumentException("UUID must not be null or empty");
         }
@@ -60,7 +62,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         existingWarehouse.setFamily(warehouse.getFamily());
         existingWarehouse.setSize(warehouse.getSize());
 
-        return warehouseRepository.save(existingWarehouse);
+        return Mapper.parse(warehouseRepository.save(existingWarehouse));
     }
 
     @Override
@@ -72,8 +74,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public Page<WarehouseModel> allWarehouses(int page, int size) {
-        return warehouseRepository.findAll(PageRequest.of(page, size));
+    public Page<WarehouseDTO> allWarehouses(int page, int size) {
+        return warehouseRepository.findAll(PageRequest.of(page, size)).map(Mapper::parse);
     }
 
     @Override

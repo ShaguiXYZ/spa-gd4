@@ -14,9 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import com.gd4.technical.api.dto.WarehouseDTO;
 import com.gd4.technical.api.model.WarehouseFamilyEnum;
 import com.gd4.technical.model.WarehouseModel;
 import com.gd4.technical.repository.WarehouseRepository;
+import com.gd4.technical.utils.Mapper;
 
 public class WarehouseServiceTest {
 	@InjectMocks
@@ -32,15 +34,15 @@ public class WarehouseServiceTest {
 
 	@Test
 	public void createTest() {
-		WarehouseModel warehouse = new WarehouseModel();
+		WarehouseDTO warehouse = new WarehouseDTO();
 		warehouse.setUuid("test-uuid");
 		warehouse.setFamily(WarehouseFamilyEnum.EST);
 		warehouse.setSize(100);
 
 		when(warehouseRepository.findByUuid(anyString())).thenReturn(Optional.empty());
-		when(warehouseRepository.save(any())).thenReturn(warehouse);
+		when(warehouseRepository.save(any())).thenReturn(Mapper.parse(warehouse));
 
-		WarehouseModel createdWarehouse = warehouseService.create(warehouse);
+		WarehouseDTO createdWarehouse = warehouseService.create(warehouse);
 
 		assert createdWarehouse != null;
 		assert createdWarehouse.getUuid().equals("test-uuid");
@@ -50,14 +52,14 @@ public class WarehouseServiceTest {
 
 	@Test
 	public void readTest() {
-		WarehouseModel warehouse = new WarehouseModel();
+		WarehouseDTO warehouse = new WarehouseDTO();
 		warehouse.setUuid("test-uuid");
 		warehouse.setFamily(WarehouseFamilyEnum.EST);
 		warehouse.setSize(100);
 
-		when(warehouseRepository.findByUuid(anyString())).thenReturn(Optional.of(warehouse));
+		when(warehouseRepository.findByUuid(anyString())).thenReturn(Optional.of(Mapper.parse(warehouse)));
 
-		WarehouseModel foundWarehouse = warehouseService.read("test-uuid");
+		WarehouseDTO foundWarehouse = warehouseService.read("test-uuid");
 
 		assert foundWarehouse != null;
 		assert foundWarehouse.getUuid().equals("test-uuid");
@@ -69,15 +71,17 @@ public class WarehouseServiceTest {
 	public void updateTest() {
 		String uuid = "test-uuid";
 
-		WarehouseModel warehouse = new WarehouseModel();
+		WarehouseDTO warehouse = new WarehouseDTO();
 		warehouse.setUuid(uuid);
 		warehouse.setFamily(WarehouseFamilyEnum.EST);
 		warehouse.setSize(100);
 
-		when(warehouseRepository.findByUuid(anyString())).thenReturn(Optional.of(warehouse));
-		when(warehouseRepository.save(any())).thenReturn(warehouse);
+		WarehouseModel warehouseModel = Mapper.parse(warehouse);
 
-		WarehouseModel updatedWarehouse = warehouseService.update(uuid, warehouse);
+		when(warehouseRepository.findByUuid(anyString())).thenReturn(Optional.of(warehouseModel));
+		when(warehouseRepository.save(any())).thenReturn(warehouseModel);
+
+		WarehouseDTO updatedWarehouse = warehouseService.update(uuid, warehouse);
 
 		assert updatedWarehouse != null;
 		assert updatedWarehouse.getUuid().equals("test-uuid");

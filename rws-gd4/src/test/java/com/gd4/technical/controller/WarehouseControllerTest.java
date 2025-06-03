@@ -9,8 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.gd4.technical.api.dto.WarehouseDTO;
 import com.gd4.technical.api.model.WarehouseFamilyEnum;
-import com.gd4.technical.model.WarehouseModel;
 import com.gd4.technical.service.WarehouseService;
 
 public class WarehouseControllerTest {
@@ -28,14 +28,14 @@ public class WarehouseControllerTest {
 
     @Test
     public void createTest() {
-        WarehouseModel warehouse = new WarehouseModel();
+        WarehouseDTO warehouse = new WarehouseDTO();
         warehouse.setUuid("test-uuid");
         warehouse.setFamily(WarehouseFamilyEnum.EST);
         warehouse.setSize(100);
 
-        when(warehouseService.create(any(WarehouseModel.class))).thenReturn(warehouse);
+        when(warehouseService.create(any(WarehouseDTO.class))).thenReturn(warehouse);
 
-        WarehouseModel createdWarehouse = warehouseController.create(warehouse);
+        WarehouseDTO createdWarehouse = warehouseController.create(warehouse);
 
         assert createdWarehouse != null;
         assert createdWarehouse.getUuid().equals("test-uuid");

@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
 import com.gd4.technical.api.WarehouseApi;
+import com.gd4.technical.api.dto.WarehouseDTO;
 import com.gd4.technical.api.model.WarehouseFamilyEnum;
-import com.gd4.technical.model.WarehouseModel;
 import com.gd4.technical.service.WarehouseService;
 
 import lombok.AllArgsConstructor;
@@ -19,12 +19,12 @@ public class WarehouseController implements WarehouseApi {
     private final WarehouseService warehouseService;
 
     @Override
-    public WarehouseModel create(WarehouseModel warehouse) {
+    public WarehouseDTO create(WarehouseDTO warehouse) {
         return warehouseService.create(warehouse);
     }
 
     @Override
-    public WarehouseModel read(String uuId) {
+    public WarehouseDTO read(String uuId) {
         if (uuId == null || uuId.trim().isEmpty()) {
             throw new IllegalArgumentException("UUID must not be null or empty");
         }
@@ -33,7 +33,7 @@ public class WarehouseController implements WarehouseApi {
     }
 
     @Override
-    public WarehouseModel update(String uuid, WarehouseModel warehouse) {
+    public WarehouseDTO update(String uuid, WarehouseDTO warehouse) {
         return warehouseService.update(uuid, warehouse);
     }
 
@@ -47,7 +47,7 @@ public class WarehouseController implements WarehouseApi {
     }
 
     @Override
-    public Page<WarehouseModel> getAllWarehouses(int page, int size) {
+    public Page<WarehouseDTO> getAllWarehouses(int page, int size) {
         return warehouseService.allWarehouses(page, size);
     }
 

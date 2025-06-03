@@ -1,6 +1,7 @@
 package com.gd4.technical.utils;
 
 import com.gd4.technical.api.dto.RackDTO;
+import com.gd4.technical.api.dto.WarehouseDTO;
 import com.gd4.technical.model.RackModel;
 import com.gd4.technical.model.WarehouseModel;
 
@@ -25,7 +26,9 @@ public class Mapper {
         rack.setType(source.getType());
 
         if (source.getWarehouseUuid() != null && !source.getWarehouseUuid().isEmpty()) {
-            WarehouseModel warehouse = config.getWarehouseService().read(source.getWarehouseUuid());
+            WarehouseModel warehouse = config.getWarehouseRepository().findByUuid(source.getWarehouseUuid())
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            "Warehouse not found with UUID: " + source.getWarehouseUuid()));
 
             rack.setWarehouse(warehouse);
         }
@@ -47,5 +50,33 @@ public class Mapper {
         }
 
         return rack;
+    }
+
+    public static WarehouseModel parse(WarehouseDTO source) {
+        if (source == null) {
+            return null;
+        }
+
+        WarehouseModel warehouse = new WarehouseModel();
+        warehouse.setUuid(source.getUuid());
+        warehouse.setClient(source.getClient());
+        warehouse.setSize(source.getSize());
+        warehouse.setFamily(source.getFamily());
+
+        return warehouse;
+    }
+
+    public static WarehouseDTO parse(WarehouseModel source) {
+        if (source == null) {
+            return null;
+        }
+
+        WarehouseDTO warehouse = new WarehouseDTO();
+        warehouse.setUuid(source.getUuid());
+        warehouse.setClient(source.getClient());
+        warehouse.setSize(source.getSize());
+        warehouse.setFamily(source.getFamily());
+
+        return warehouse;
     }
 }
