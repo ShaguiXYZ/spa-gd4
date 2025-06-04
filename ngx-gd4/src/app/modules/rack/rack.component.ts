@@ -18,7 +18,7 @@ export class RackComponent {
   public warehouseId = input.required<string>();
   public $racks: WritableSignal<IRackModel[]> = signal([]);
 
-  private selectedRack: IRackModel | null = null;
+  private selectedRack?: IRackModel;
 
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -26,7 +26,6 @@ export class RackComponent {
 
   ngOnInit(): void {
     this.createForm();
-
     this.fetchRacks();
   }
 
@@ -57,7 +56,7 @@ export class RackComponent {
     this.form.markAsUntouched();
     this.form.updateValueAndValidity();
 
-    this.selectedRack = null;
+    this.selectedRack = undefined;
   }
 
   public submitForm(): void {

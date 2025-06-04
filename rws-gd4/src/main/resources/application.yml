@@ -9,10 +9,9 @@ logging:
   pattern:
     console: '%d %-5level %logger : %msg%n'
   level:
+    org.hibernate.SQL: DEBUG
     org.springframework: INFO
     org.springframework.boot.autoconfigure: ERROR
-    org.hibernate.SQL: DEBUG
-    shagui.rws.security: DEBUG
 
 spring:
   application:

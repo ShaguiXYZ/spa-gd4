@@ -17,7 +17,7 @@ export class WarehouseComponent implements OnInit {
   public form!: FormGroup;
   public $warehouses: WritableSignal<IWarehouseModel[]> = signal([]);
 
-  private selectedWarehouse: IWarehouseModel | null = null;
+  private selectedWarehouse?: IWarehouseModel;
 
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -67,7 +67,7 @@ export class WarehouseComponent implements OnInit {
     this.form.markAsUntouched();
     this.form.updateValueAndValidity();
 
-    this.selectedWarehouse = null;
+    this.selectedWarehouse = undefined;
   }
 
   public submitForm(): void {

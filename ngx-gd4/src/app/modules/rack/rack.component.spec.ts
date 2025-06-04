@@ -59,6 +59,7 @@ describe('RackComponent', () => {
 
   it('should create the form on init', () => {
     component.ngOnInit();
+
     expect(component.form).toBeDefined();
     expect(component.form.get('type')).toBeTruthy();
   });
@@ -76,6 +77,7 @@ describe('RackComponent', () => {
     spyOn(console, 'error');
     component.ngOnInit();
     tick();
+
     expect(console.error).toHaveBeenCalledWith('Error fetching racks:', 'error');
   }));
 
@@ -83,6 +85,7 @@ describe('RackComponent', () => {
     const rack = mockRacks[0];
     component['createForm']();
     component.editData(rack);
+
     expect(component.form.value.type).toBe(rack.type);
     expect((component as any).selectedRack).toBe(rack);
   });
@@ -93,6 +96,7 @@ describe('RackComponent', () => {
     spyOn(component, 'resetForm');
     component.deleteData('1');
     tick();
+
     expect(component.$racks()).toEqual([mockRacks[1]]);
     expect(component.resetForm).toHaveBeenCalled();
   }));
@@ -102,6 +106,7 @@ describe('RackComponent', () => {
     spyOn(console, 'error');
     component.deleteData('1');
     tick();
+
     expect(console.error).toHaveBeenCalledWith('Error deleting rack:', 'delete error');
   }));
 
@@ -109,6 +114,7 @@ describe('RackComponent', () => {
     component['createForm']();
     (component as any).selectedRack = mockRacks[0];
     component.resetForm();
+
     expect(component.form.pristine).toBeTrue();
     expect(component.form.untouched).toBeTrue();
     expect((component as any).selectedRack).toBeNull();
@@ -123,6 +129,7 @@ describe('RackComponent', () => {
     spyOn(component, 'resetForm');
     component.submitForm();
     tick();
+
     expect(component.$racks()[0].type).toBe('C');
     expect(component.resetForm).toHaveBeenCalled();
   }));
@@ -135,6 +142,7 @@ describe('RackComponent', () => {
     spyOn(console, 'error');
     component.submitForm();
     tick();
+
     expect(console.error).toHaveBeenCalledWith('Error updating rack:', 'update error');
   }));
 
@@ -147,6 +155,7 @@ describe('RackComponent', () => {
     spyOn(component, 'resetForm');
     component.submitForm();
     tick();
+
     expect(component.$racks().length).toBe(3);
     expect(component.$racks()[2].type).toBe('D');
     expect(component.resetForm).toHaveBeenCalled();
@@ -160,16 +169,19 @@ describe('RackComponent', () => {
     spyOn(console, 'error');
     component.submitForm();
     tick();
+
     expect(console.error).toHaveBeenCalledWith('Error creating rack:', 'create error');
   }));
 
   it('should navigate to warehouse detail', () => {
     component.warehouses('abc');
+
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/warehouse', 'abc']);
   });
 
   it('should navigate back to warehouse list', () => {
     component.back();
+
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/warehouse']);
   });
 });

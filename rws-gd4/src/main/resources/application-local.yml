@@ -22,10 +22,4 @@ spring:
 server:
   port: 9092
 
-logging:
-  level:
-    org.springframework: INFO
-    org.hibernate.SQL: DEBUG
-    shagui.rws.security: DEBUG
-
 debug: true
