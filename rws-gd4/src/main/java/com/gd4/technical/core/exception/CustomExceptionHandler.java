@@ -26,7 +26,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity
 				.status(HttpStatus.BAD_REQUEST)
 				.headers(new HttpHeaders())
-				.body(new BadRequestException(ex.getMessage(), ex));
+				.body(ex.getMessage());
 	}
 
 	@ExceptionHandler(FeignException.class)
