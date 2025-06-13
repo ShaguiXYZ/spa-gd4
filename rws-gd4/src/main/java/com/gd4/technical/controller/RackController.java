@@ -33,8 +33,7 @@ public class RackController implements RackApi {
 
     @Override
     public RackDTO update(String warehouseUuId, RackDTO rack) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return rackService.update(rack);
     }
 
     @Override

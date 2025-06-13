@@ -42,5 +42,4 @@ public class WarehouseControllerTest {
         assert createdWarehouse.getFamily() == WarehouseFamilyEnum.EST;
         assert createdWarehouse.getSize() == 100;
     }
-
 }
